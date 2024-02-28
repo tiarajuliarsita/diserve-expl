@@ -1,0 +1,158 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Daily Course",
+      "description": "Documentation API Daily Course 222",
+      "version": "1.0.0"
+    },
+  
+    "servers": [
+      {
+        "url": "http://localhost:8080",
+        "description": "localhost"
+      }
+    ],
+    "tags": [
+      {
+        "name": "User",
+        "description": "API user"
+      }
+    ],
+    "paths": {
+      "/users/login": {
+        "post": {
+          "tags": ["User"],
+          "summary": "login for user",
+          "description": "",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestLogin"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "email": "student@gmail.com",
+                      "password": "student123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "examples": {
+                    "success": {
+                      "value": {
+                        "status": true,
+                        "message": "succes",
+                        "data": {
+                          "id": "419f5c41-496c-429a-b1c8-e7e1c672ca04",
+                          "json": "John Doe",
+                          "email": "user2@example.com",
+                          "image": "http://image.com",
+                          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwiZXhwIjoxNzA4MDk1ODk5LCJpZCI6IjQxOWY1YzQxLTQ5NmMtNDI5YS1iMWM4LWU3ZTFjNjcyY2EwNCIsInJvbGUiOiJ1c2VyIn0.4xVnkMh0BSPZ2IWH3IsF2ybL4Af696Wq9PSfV5xAMRQ"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/register": {
+        "post": {
+          "tags": ["User"],
+          "summary": "register user",
+          "description": "register  for user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestRegister"
+                },
+                "examples": {
+                  "success": {
+                    "value": {
+                      "email": "student@gmail.com",
+                      "password": "password123",
+                      "confirm_password": "password123",
+                      "full_name": "student",
+                      "phone": "1234567890"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "examples": {
+                    "success": {
+                      "value": {
+                        "status": true,
+                        "message": "succes create user"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "ApiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "Authorization"
+        }
+      },
+      "schemas": {
+        "RequestLogin": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": ["email", "password"]
+        },
+        "RequestRegister": {
+          "type": "object",
+          "properties": {
+            "full_name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "confirm_password": {
+              "type": "string"
+            }
+          },
+          "required": ["user_name", "email", "password", "confirm_password"]
+        }
+      }
+    }
+  }
