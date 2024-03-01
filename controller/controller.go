@@ -37,17 +37,17 @@ func (c *ctrl) FindByID(e echo.Context) error {
 	log.Println("id : ", id)
 
 	post, _ := c.rd.Get(id)
-	log.Println(" post : ", post)
-	if post != nil {
-
-		return e.JSON(200, post)
-	} else {
-
+	// log.Println(" post : ", post)
+	if post == nil {
 		v, err := c.svc.FindByID(id)
 		if err != nil {
 			return e.JSON(400, err)
 		}
 		c.rd.Set(id, v)
+		return e.JSON(200, v)
+		
+	} else {
+
 		return e.JSON(200, post)
 	}
 }
