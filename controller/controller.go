@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"diserve-expl/auth"
 	"diserve-expl/cache"
 	"diserve-expl/service"
 	"log"
@@ -35,7 +36,6 @@ func (c *ctrl) CreatePost(e echo.Context) error {
 func (c *ctrl) FindByID(e echo.Context) error {
 	id := e.Param("id")
 	log.Println("id : ", id)
-
 	post, _ := c.rd.Get(id)
 	// log.Println(" post : ", post)
 	if post == nil {
@@ -45,9 +45,42 @@ func (c *ctrl) FindByID(e echo.Context) error {
 		}
 		c.rd.Set(id, v)
 		return e.JSON(200, v)
-		
-	} else {
 
+	} else {
 		return e.JSON(200, post)
 	}
+}
+
+func (c *ctrl) Login(e echo.Context) error {
+
+	req := cache.Post{}
+	err := e.Bind(&req)
+	if err != nil {
+		return e.JSON(400, err)
+	}
+
+	v, at, err := c.svc.FindByName(req.Name)
+	if err != nil {
+		return e.JSON(500, err)
+	}
+	return e.JSON(200, echo.Map{
+		"data":  v,
+		"token": at,
+	})
+
+}
+
+func (c *ctrl) RefreshToken(e echo.Context) error {
+	ref := auth.ReqRefToken{}
+	err := e.Bind(&ref)
+	if err != nil {
+		return e.JSON(400, err)
+	}
+
+	t, err := c.svc.RefreshToken(ref.RefreshToken)
+	if err != nil {
+		return e.JSON(400, err)
+	}
+	return e.JSON(200, t)
+
 }

@@ -10,14 +10,17 @@ import (
 
 type (
 	Post struct {
-		ID   string `json:"id"`
-		Name string `json:"name"`
+		ID       string `json:"id"`
+		Name     string `json:"name"`
+		Password string `json:"password"`
 	}
 
 	PostChace interface {
-		Set(key string, value Post)error
+		Set(key string, value Post) error
 		Get(key string) (*Post, error)
 	}
+
+	
 )
 
 type redisCache struct {

@@ -14,6 +14,7 @@ type repo struct {
 type RepoInterface interface {
 	CreatePost(cache.Post) error
 	FindByID(id string) (cache.Post, error)
+	FindByName(name string) (cache.Post, error)
 }
 
 func NewRepo(db *gorm.DB) RepoInterface {
@@ -36,6 +37,18 @@ func (r *repo) FindByID(id string) (cache.Post, error) {
 	result := cache.Post{}
 
 	err := r.db.Where("id = ?", id).Find(&result).Error
+	if err != nil {
+		return cache.Post{}, err
+	}
+	log.Println("result", result)
+	return result, nil
+}
+
+// FindByName implements RepoInterface.
+func (r *repo) FindByName(name string) (cache.Post, error) {
+	result := cache.Post{}
+
+	err := r.db.Where("name = ?", name).Find(&result).Error
 	if err != nil {
 		return cache.Post{}, err
 	}
