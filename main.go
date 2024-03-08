@@ -7,6 +7,7 @@ import (
 
 	"diserve-expl/auth"
 	"diserve-expl/cache"
+	"diserve-expl/cmd"
 	"diserve-expl/controller"
 	"diserve-expl/repository"
 	"diserve-expl/service"
@@ -65,8 +66,12 @@ func main() {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.CORS())
 
+	//shedulling in go
 	// gocron.Every(1).Second().Do(task)
 	// <-gocron.Start()
+	// rootCmd.AddCommand(reverseCmd)
+
+	cmd.Execute()
 
 	DocsRoute(e)
 	db := ConnectDB()
@@ -79,7 +84,6 @@ func main() {
 	e.POST("/datas", h.CreatePost)
 	e.POST("/refresh", h.RefreshToken)
 
-	
 	auth := e.Group("/auth", auth.Middleware())
 	auth.GET("/datas/:id", h.FindByID)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
