@@ -37,7 +37,7 @@ func init() {
 
 	docTemplate := Load()
 	var SwaggerInfo = &swag.Spec{
-		InfoInstanceName: "swagger",
+		InfoInstanceName: "swagger", 
 		SwaggerTemplate:  docTemplate,
 	}
 	swag.Register(SwaggerInfo.InstanceName(), SwaggerInfo)
@@ -57,7 +57,7 @@ func ConnectDB() *gorm.DB {
 	return db
 }
 
-func task() {
+func Task() {
 	log.Println("halow")
 }
 
